@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lephante</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        header {
+            background-color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 20px 0;
+            background-color: white;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: #d90b9f;
+        }
+        
+        .banner-section {
+            padding: 20px 0;
+            background-color: white;
+            text-align: center;
+            position: relative;
+        }
+        
+        .banner-container {
+            position: relative;
+            display: inline-block;
+            max-width: 80%;
+        }
+        
+        .banner-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+        }
+        
+        /* White rectangle overlay on colors.png */
+        .banner-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 22px 40px;
+            border-radius: 50px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            white-space: nowrap;
+            z-index: 2;
+        }
+        
+        .banner-overlay a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #25D366;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .banner-overlay img {
+            width: 32px;
+            height: 32px;
+        }
+        
+        .products-section {
+            padding: 60px 20px;
+            background-color: white;
+        }
+        
+        .category-section {
+            margin-bottom: 80px;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(265px, 265px));
+            justify-content: center;
+            gap: 45px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .dual-sections {
+            display: flex;
+            gap: 60px;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .dual-sections .category-section {
+            margin-bottom: 0;
+            flex: 1;
+            max-width: 580px;
+        }
+        
+        .product-item {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 340px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            transition: box-shadow 0.3s;
+        }
+        
+        .dual-sections .product-image {
+            height: 380px;
+        }
+        
+        .product-item:hover .product-image {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .product-name {
+            color: #333;
+            font-size: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        
+        .product-price {
+            color: #d90b9f;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        footer {
+            background-color: #f5f5f5;
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+        
+        .footer-image {
+            width: 20%;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* MODAL STYLES */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            max-width: 520px;
+            width: 90%;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+        }
+        
+        .modal-info {
+            padding: 24px;
+            text-align: center;
+        }
+        
+        .modal-name {
+            font-size: 22px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        
+        .modal-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #d90b9f;
+            margin-bottom: 28px;
+        }
+        
+        /* WhatsApp button in modal */
+        .modal-btn-whatsapp {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 17px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto;
+            transition: all 0.3s;
+        }
+        
+        .modal-btn-whatsapp img {
+            width: 28px;
+            height: 28px;
+        }
+        
+        .modal-btn-whatsapp:hover {
+            background-color: #1ebe5c;
+            transform: translateY(-2px);
+        }
+        
+        .close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="Logo" class="logo">
+    </header>
+    
+    <nav>
+        <a href="#dresses">Dresses</a>
+        <a href="#2piece">2 Piece Set</a>
+        <a href="#flowing">Flowing Princess</a>
+    </nav>
+    
+    <div class="banner-section">
+        <div class="banner-container">
+            <img src="colors.png" alt="Colors Banner" class="banner-image">
+            
+            <!-- White rectangle overlay with WhatsApp button -->
+            <div class="banner-overlay">
+                <a href="http://wa.me/+2349134333745" target="_blank">
+                    <img src="whatsapp.png" alt="WhatsApp">
+                    Order through WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="products-section">
+        
+        <!-- Dresses Section -->
+        <div id="dresses" class="category-section">
+            <h2 class="section-title">Dresses</h2>
+            <div class="products-grid">
+                <div class="product-item" onclick="showPreview(this)">
+                    <img src="blue.png" alt="Blue Dress" class="product-image" data-name="Blue Embroidered Princess" data-price="120000" data-img="blue.png">
+                    <p class="product-name">Blue Embroidered Princess</p>
+                    <p class="product-price">₦120,000</p>
+                </div>
+                <div class="product-item" onclick="showPreview(this)">
+                    <img src="yellow.png" alt="Yellow Dress" class="product-image" data-name="Yellow Peacock Princess" data-price="120000" data-img="yellow.png">
+                    <p class="product-name">Yellow Peacock Princess</p>
+                    <p class="product-price">₦120,000</p>
+                </div>
+                <div class="product-item" onclick="showPreview(this)">
+                    <img src="green.png" alt="Green Dress" class="product-image" data-name="Green Velvet Princess" data-price="120000" data-img="green.png">
+                    <p class="product-name">Green Velvet Princess</p>
+                    <p class="product-price">₦120,000</p>
+                </div>
+                <div class="product-item" onclick="showPreview(this)">
+                    <img src="red.png" alt="Red Dress" class="product-image" data-name="Red Floral Princess" data-price="120000" data-img="red.png">
+                    <p class="product-name">Red Floral Princess</p>
+                    <p class="product-price">₦120,000</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 2 Piece Set + Flowing Princess -->
+        <div class="dual-sections">
+            
+            <!-- 2 Piece Set Section -->
+            <div id="2piece" class="category-section">
+                <h2 class="section-title">2 Piece Set</h2>
+                <div class="products-grid">
+                    <div class="product-item" onclick="showPreview(this)">
+                        <img src="winter.png" alt="Winter Set" class="product-image" data-name="Winter Runway Set" data-price="27800" data-img="winter.png">
+                        <p class="product-name">Winter Runway Set</p>
+                        <p class="product-price">₦27,800</p>
+                    </div>
+                    <div class="product-item" onclick="showPreview(this)">
+                        <img src="fall.png" alt="Fall Set" class="product-image" data-name="Fall Runway Set" data-price="27800" data-img="fall.png">
+                        <p class="product-name">Fall Runway Set</p>
+                        <p class="product-price">₦27,800</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Flowing Princess Section -->
+            <div id="flowing" class="category-section">
+                <h2 class="section-title">Flowing Princess</h2>
+                <div class="products-grid">
+                    <div class="product-item" onclick="showPreview(this)">
+                        <img src="green-gown.png" alt="Green Lily Bubu" class="product-image" data-name="Green Lily Bubu" data-price="50000" data-img="green-gown.png">
+                        <p class="product-name">Green Lily Bubu</p>
+                        <p class="product-price">₦50,000</p>
+                    </div>
+                    <div class="product-item" onclick="showPreview(this)">
+                        <img src="purple-gown.png" alt="Purple Florence Princess" class="product-image" data-name="Purple Florence Princess" data-price="70000" data-img="purple-gown.png">
+                        <p class="product-name">Purple Florence Princess</p>
+                        <p class="product-price">₦70,000</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+    
+    <!-- PREVIEW MODAL -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img id="modal-image" class="modal-image" src="" alt="">
+            <div class="modal-info">
+                <h2 id="modal-name" class="modal-name"></h2>
+                <p id="modal-price" class="modal-price"></p>
+                
+                <!-- Single WhatsApp button -->
+                <a href="http://wa.me/+2349134333745" target="_blank" class="modal-btn-whatsapp">
+                    <img src="whatsapp.png" alt="WhatsApp">
+                    Order through WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <img src="princess.png" alt="Princess Showcase" class="footer-image">
+    </footer>
+
+    <script>
+        // Show preview modal
+        function showPreview(element) {
+            const name = element.querySelector('.product-name').textContent;
+            const price = element.querySelector('.product-price').textContent;
+            const imgSrc = element.querySelector('.product-image').getAttribute('data-img');
+            
+            document.getElementById('modal-name').textContent = name;
+            document.getElementById('modal-price').innerHTML = `<strong>${price}</strong>`;
+            document.getElementById('modal-image').src = imgSrc;
+            
+            document.getElementById('product-modal').style.display = 'flex';
+        }
+        
+        // Close modal
+        function closeModal() {
+            document.getElementById('product-modal').style.display = 'none';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('product-modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+        
+        console.log('%c✅ Lephante index.html updated successfully with WhatsApp ordering!', 'color:#25D366; font-size:14px; font-weight:bold');
+    </script>
+</body>
+</html>
+
